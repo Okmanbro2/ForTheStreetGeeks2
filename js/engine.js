@@ -116,6 +116,28 @@ const Grid = {
 };
 
 /* ==========================================================
+   RENDERER
+   ========================================================== */
+
+const Renderer = {
+
+    colors: {
+
+        background: "#ece8df",
+
+        gridMinor: "#d9d3c8",
+
+        gridMajor: "#c8c1b6",
+
+        axis: "#9aa3b2"
+
+    }
+
+};
+
+
+
+/* ==========================================================
    UTILITIES
    ========================================================== */
 
@@ -339,15 +361,130 @@ function update(dt)
 
 function render()
 {
+    Renderer.clear();
 
-    ctx.clearRect(
+    Renderer.drawGrid();
+
+    Renderer.drawOrigin();
+}
+
+Renderer.clear = function()
+{
+    ctx.fillStyle = this.colors.background;
+
+    ctx.fillRect(
         0,
         0,
         canvas.width,
         canvas.height
     );
+};
 
-}
+Renderer.drawGrid = function()
+{
+
+    const spacing = Grid.minorSize;
+
+    const left =
+        Camera.x - canvas.width / 2 / Camera.zoom;
+
+    const right =
+        Camera.x + canvas.width / 2 / Camera.zoom;
+
+    const top =
+        Camera.y - canvas.height / 2 / Camera.zoom;
+
+    const bottom =
+        Camera.y + canvas.height / 2 / Camera.zoom;
+
+    const startX =
+        Math.floor(left / spacing) * spacing;
+
+    const startY =
+        Math.floor(top / spacing) * spacing;
+
+    ctx.lineWidth = 1;
+
+    for(let x = startX; x <= right; x += spacing)
+    {
+
+        const sx =
+            worldToScreen(x,0).x;
+
+        ctx.beginPath();
+
+        ctx.strokeStyle =
+            Renderer.colors.gridMinor;
+
+        ctx.moveTo(sx,0);
+
+        ctx.lineTo(sx,canvas.height);
+
+        ctx.stroke();
+
+    }
+
+    for(let y = startY; y <= bottom; y += spacing)
+    {
+
+        const sy =
+            worldToScreen(0,y).y;
+
+        ctx.beginPath();
+
+        ctx.strokeStyle =
+            Renderer.colors.gridMinor;
+
+        ctx.moveTo(0,sy);
+
+        ctx.lineTo(canvas.width,sy);
+
+        ctx.stroke();
+
+    }
+
+};
+
+Renderer.drawOrigin = function()
+{
+
+    const center =
+        worldToScreen(0,0);
+
+    ctx.strokeStyle =
+        Renderer.colors.axis;
+
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        center.x,
+        0
+    );
+
+    ctx.lineTo(
+        center.x,
+        canvas.height
+    );
+
+    ctx.stroke();
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        0,
+        center.y
+    );
+
+    ctx.lineTo(
+        canvas.width,
+        center.y
+    );
+
+    ctx.stroke();
+
+};
 
 function loop(now)
 {

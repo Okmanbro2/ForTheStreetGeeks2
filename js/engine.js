@@ -524,31 +524,30 @@ Renderer.drawOrigin = function()
 
 function loop(now)
 {
-
     Engine.deltaTime =
         (now - Engine.lastFrame) / 1000;
 
     Engine.lastFrame = now;
 
-    uEngine.frameCounter++;
+    Engine.frameCounter++;
     Engine.frameTimer += Engine.deltaTime;
 
     if (Engine.frameTimer >= 1)
     {
         Engine.fps = Engine.frameCounter;
-    
+
         Engine.frameCounter = 0;
         Engine.frameTimer = 0;
     }
-    
+
     update(Engine.deltaTime);
-    
+
     render();
-    
+
     Debug.update();
-    
+
     requestAnimationFrame(loop);
-    }
+}
 
 /* ==========================================================
    START ENGINE

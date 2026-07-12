@@ -194,6 +194,23 @@ window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 
 /* ==========================================================
+   LOADING
+   ========================================================== */
+
+function hideLoadingScreen()
+{
+    const loading = document.getElementById("loadingScreen");
+
+    loading.classList.add("hidden");
+
+    setTimeout(() => {
+
+        loading.remove();
+
+    }, 350);
+}
+
+/* ==========================================================
    INPUT EVENTS
    ========================================================== */
 
@@ -348,4 +365,15 @@ function loop(now)
 
 }
 
-requestAnimationFrame(loop);
+/* ==========================================================
+   START ENGINE
+   ========================================================== */
+
+function startEngine()
+{
+    hideLoadingScreen();
+
+    requestAnimationFrame(loop);
+}
+
+startEngine();

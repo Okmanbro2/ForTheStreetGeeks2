@@ -1,1 +1,268 @@
-soon
+/* ===========================================================
+   StreetGeek Engine
+   Version: 2.0.0-alpha.1
+
+   File:
+   style.css
+
+   Author:
+   thwok & OpenAI
+
+   =========================================================== */
+
+:root {
+
+    --background: #17191d;
+    --grid-major: #2d3138;
+    --grid-minor: #22252b;
+
+    --panel: #1f2228;
+    --panel-border: #3a4048;
+
+    --text: #e5e7eb;
+    --text-muted: #9ca3af;
+
+    --accent: #4da3ff;
+
+    --shadow:
+        0px 0px 20px rgba(0,0,0,0.35);
+
+    --toolbar-height: 42px;
+
+    --font:
+        "Segoe UI",
+        system-ui,
+        sans-serif;
+
+}
+
+/* ===========================================================
+   Reset
+   =========================================================== */
+
+* {
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+
+    user-select: none;
+
+}
+
+html,
+body {
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    background: var(--background);
+
+    color: var(--text);
+
+    font-family: var(--font);
+
+}
+
+/* ===========================================================
+   Canvas
+   =========================================================== */
+
+#viewport {
+
+    position: absolute;
+
+    inset: 0;
+
+    display: block;
+
+    cursor: crosshair;
+
+}
+
+/* ===========================================================
+   Toolbar
+   =========================================================== */
+
+#toolbar {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: var(--toolbar-height);
+
+    display: flex;
+
+    align-items: center;
+
+    padding-left: 16px;
+
+    background: rgba(31,34,40,.92);
+
+    border-bottom: 1px solid var(--panel-border);
+
+    backdrop-filter: blur(10px);
+
+    font-weight: 600;
+
+    letter-spacing: .4px;
+
+    z-index: 100;
+
+}
+
+/* ===========================================================
+   Debug Overlay
+   =========================================================== */
+
+#debugOverlay {
+
+    position: fixed;
+
+    top: 58px;
+    left: 16px;
+
+    width: 260px;
+
+    background: rgba(31,34,40,.95);
+
+    border: 1px solid var(--panel-border);
+
+    border-radius: 10px;
+
+    padding: 12px;
+
+    box-shadow: var(--shadow);
+
+    font-size: 13px;
+
+    line-height: 1.55;
+
+    z-index: 50;
+
+}
+
+.debugTitle {
+
+    font-weight: bold;
+
+    color: var(--accent);
+
+    margin-bottom: 6px;
+
+}
+
+#debugOverlay hr {
+
+    border: none;
+
+    border-top: 1px solid var(--panel-border);
+
+    margin: 8px 0;
+
+}
+
+#debugContent {
+
+    white-space: pre-line;
+
+    color: var(--text-muted);
+
+}
+
+/* ===========================================================
+   Loading Screen
+   =========================================================== */
+
+#loadingScreen {
+
+    position: fixed;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: var(--background);
+
+    z-index: 1000;
+
+    transition: opacity .35s ease;
+
+}
+
+.loadingPanel {
+
+    width: 420px;
+
+    background: var(--panel);
+
+    border: 1px solid var(--panel-border);
+
+    border-radius: 14px;
+
+    padding: 28px;
+
+    text-align: center;
+
+    box-shadow: var(--shadow);
+
+}
+
+.loadingPanel h1 {
+
+    font-size: 42px;
+
+    font-weight: 700;
+
+}
+
+.loadingPanel h2 {
+
+    margin-top: 6px;
+
+    color: var(--accent);
+
+    font-size: 18px;
+
+    font-weight: 500;
+
+}
+
+.subtitle {
+
+    margin-top: 14px;
+
+    margin-bottom: 30px;
+
+    color: var(--text-muted);
+
+}
+
+#loadingStatus {
+
+    font-size: 15px;
+
+    color: var(--accent);
+
+}
+
+/* ===========================================================
+   Utility
+   =========================================================== */
+
+.hidden {
+
+    opacity: 0;
+
+    pointer-events: none;
+
+}

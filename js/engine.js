@@ -135,7 +135,43 @@ const Renderer = {
 
 };
 
+/* ==========================================================
+   DEBUG
+   ========================================================== */
 
+const Debug = {
+
+    element: document.getElementById("debugContent"),
+
+    update()
+    {
+        this.element.textContent =
+`Version: ${SGE.VERSION}
+
+FPS: ${Engine.fps}
+
+Camera
+  X: ${Camera.x.toFixed(1)}
+  Y: ${Camera.y.toFixed(1)}
+
+Zoom
+  ${(Camera.zoom * 100).toFixed(0)}%
+
+Mouse
+  Screen: ${Input.mouseX}, ${Input.mouseY}
+
+World
+  X: ${Input.worldX.toFixed(1)}
+  Y: ${Input.worldY.toFixed(1)}
+
+World Objects
+
+Nodes: ${World.nodes.length}
+Edges: ${World.edges.length}
+Vehicles: ${World.vehicles.length}`;
+    }
+
+};
 
 /* ==========================================================
    UTILITIES
@@ -494,13 +530,25 @@ function loop(now)
 
     Engine.lastFrame = now;
 
+    uEngine.frameCounter++;
+    Engine.frameTimer += Engine.deltaTime;
+
+    if (Engine.frameTimer >= 1)
+    {
+        Engine.fps = Engine.frameCounter;
+    
+        Engine.frameCounter = 0;
+        Engine.frameTimer = 0;
+    }
+    
     update(Engine.deltaTime);
-
+    
     render();
-
+    
+    Debug.update();
+    
     requestAnimationFrame(loop);
-
-}
+    }
 
 /* ==========================================================
    START ENGINE

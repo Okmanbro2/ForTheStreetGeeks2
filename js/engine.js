@@ -1,15 +1,16 @@
 "use strict";
 const SGE = {
-
     NAME: "StreetGeek",
-
     VERSION: "2.0.0-alpha.1",
-
     AUTHORS: [
-        "two birds",
+        "birds",
     ]
-
 };
+
+console.log(
+    `%cStreetGeek ${SGE.VERSION}`,
+    "color:#4da3ff;font-weight:bold;"
+);
 
 /* ==========================================================
    CANVAS

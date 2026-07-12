@@ -24,19 +24,27 @@ const ctx = canvas.getContext("2d");
    ========================================================== */
 
 const World = {
-
+    nextNodeID: 1,
+    nextEdgeID: 1,
     nodes: [],
-
     edges: [],
-
     intersections: [],
-
     vehicles: [],
-
     terrain: [],
-
-    zones: []
-
+    zones: [],
+    createNode(x, y)
+    {
+        const node = {
+            id: this.nextNodeID++,
+            x,
+            y,
+            selected: false,
+            hovered: false,
+            edges: []
+        };
+        this.nodes.push(node);
+        return node;
+    }
 };
 
 /* ==========================================================
@@ -332,6 +340,23 @@ window.addEventListener("mouseup", () => {
 
 });
 
+canvas.addEventListener("click", e =>
+{
+    if (e.button !== 0)
+        return;
+
+    const world =
+        screenToWorld(
+            e.clientX,
+            e.clientY
+        );
+
+    World.createNode(
+        world.x,
+        world.y
+    );
+});
+
 canvas.addEventListener("wheel", e => {
 
     e.preventDefault();
@@ -389,10 +414,25 @@ function updateCamera(dt)
 
 }
 
+function updateHoveredNode()
+{
+    const radius = 10 / Camera.zoom;
+
+    for (const node of World.nodes)
+    {
+        const dx = node.x - Input.worldX;
+        const dy = node.y - Input.worldY;
+
+        node.hovered =
+            Math.sqrt(dx * dx + dy * dy) <= radius;
+    }
+}
+
 function update(dt)
 {
 
     updateCamera(dt);
+    updateHoveredNode();
 
 }
 
@@ -521,6 +561,33 @@ Renderer.drawOrigin = function()
 
     ctx.stroke();
 
+};
+
+Renderer.drawNodes = function()
+{
+    for (const node of World.nodes)
+    {
+        const p = worldToScreen(node.x, node.y);
+
+        ctx.beginPath();
+
+        ctx.arc(
+            p.x,
+            p.y,
+            6,
+            0,
+            Math.PI * 2
+        );
+
+        if (node.selected)
+            ctx.fillStyle = "#4da3ff";
+        else if (node.hovered)
+            ctx.fillStyle = "#ffb347";
+        else
+            ctx.fillStyle = "#2d5aa3";
+
+        ctx.fill();
+    }
 };
 
 function loop(now)
